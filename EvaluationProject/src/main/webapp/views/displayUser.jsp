@@ -1,12 +1,12 @@
-
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <h1>
-    <%=request.getAttribute("id") %>
+   Account ID <%=request.getAttribute("id") %>
 </h1>
 <h1>
-    <%=request.getAttribute("username") %>
+  UserName  <%=request.getAttribute("username") %>
 </h1>
 <h1>
-    <%=request.getAttribute("balance") %>
+   Account Balance <%=request.getAttribute("balance") %>
 </h1>
 <form:form action="/user/menu" method="GET" >
     <input type="submit" value="menu">

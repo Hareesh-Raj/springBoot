@@ -18,7 +18,13 @@ public class UserController {
 	public void setUser(UserInterfaceImpl user) {
 		this.user = user;
 	}
-
+	
+	@RequestMapping(value = "menu",method = RequestMethod.GET)
+	public ModelAndView menuPage(ModelAndView mandv)
+	{
+		mandv.setViewName("menu");
+		return mandv;
+	}
 	@RequestMapping(value = "create",method = RequestMethod.POST)
 	public ModelAndView createUser(UserDTO user)
 	{
@@ -56,7 +62,7 @@ public class UserController {
 		try {
 			 getUser().moneyTransfer(data.getCrid(),data.getDbid(),data.getAmount());
 			 ModelAndView mandv = new ModelAndView();
-			 	mandv.setViewName("UserSuccessPage");
+			 	mandv.setViewName("successtransfer");
 				return mandv;
 		} catch (InvalidUserException | InsufficientBalance e) {
 			
@@ -75,12 +81,6 @@ public class UserController {
 	@RequestMapping(value = "success",method = RequestMethod.GET)
 	public ModelAndView sucess(ModelAndView mandv) {
 		mandv.setViewName("UserSuccessPage");
-		return mandv;
-	}
-	@RequestMapping(value = "menu",method = RequestMethod.GET)
-	public ModelAndView menuPage(ModelAndView mandv)
-	{
-		mandv.setViewName("menu");
 		return mandv;
 	}
 	@RequestMapping(value = "moneytransfer",method = RequestMethod.GET)
