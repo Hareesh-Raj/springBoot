@@ -70,7 +70,7 @@ public class HelloController {
 		request.setAttribute("hello", "Hello World from request 7 Object");
 		return mandv;
 	}
-	@RequestMapping(value = "hello7/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "hello7/{name}", method = RequestMethod.GET)
 	public ModelAndView sayHello8(@PathVariable String name,ModelAndView mandv,HttpServletRequest request) {
 //		ApplicationContext ctx = SpringApplication.run(WebProjectApplication.class, args);;
 //		MyService mtx = MyService.getBean("myService",MyService.class);

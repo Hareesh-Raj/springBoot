@@ -8,8 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.ApplicationContext;
 
 
-@SpringBootApplication(exclude = HibernateJpaAutoConfiguration.class)
-@ComponentScan(basePackages = {"com"})
+@SpringBootApplication
 public class WebProjectApplication {
 
 	public static void main(String[] args) {
