@@ -1,9 +1,9 @@
 package com.example.demo;
 
-public class InvalidUserException extends Exception{
+public class InsufficientBalanceException extends Exception{
 	String errorMessage;
-	InvalidUserException(String errorMessage)
-	{
+
+	public InsufficientBalanceException(String errorMessage) {
 		this.errorMessage = errorMessage;
 	}
 	@Override

@@ -1,4 +1,5 @@
 package com.example.demo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -9,86 +10,86 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/user")
 public class UserController {
 	@Autowired
-	private UserInterfaceImpl user;
-	
-	public UserInterfaceImpl getUser() {
-		return user;
+	private UserInterfaceImpl userService;
+
+	public UserInterfaceImpl getUserService() {
+		return userService;
 	}
 
-	public void setUser(UserInterfaceImpl user) {
-		this.user = user;
+	public void setUserService(UserInterfaceImpl userService) {
+		this.userService = userService;
 	}
-	
-	@RequestMapping(value = "menu",method = RequestMethod.GET)
-	public ModelAndView menuPage(ModelAndView mandv)
-	{
-		mandv.setViewName("menu");
-		return mandv;
+
+	@RequestMapping(value = "menu", method = RequestMethod.GET)
+	public ModelAndView menuPage(ModelAndView modelAndView) {
+		modelAndView.setViewName("menu");
+		return modelAndView;
 	}
-	@RequestMapping(value = "create",method = RequestMethod.POST)
-	public ModelAndView createUser(UserDTO user)
-	{
-	 	getUser().createUser(user);
-	 	ModelAndView mandv = new ModelAndView();
-	 	mandv.setViewName("UserSuccessPage");
-		return mandv;
+
+	@RequestMapping(value = "create", method = RequestMethod.POST)
+	public ModelAndView createUser(UserDTO user) {
+		getUserService().createUser(user);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("UserSuccessPage");
+		return modelAndView;
 	}
-	@RequestMapping(value = "get",method = RequestMethod.POST)
-	public ModelAndView getUser(FormData data)
-	{
-		
-		 UserDTO dto = getUser().getUser(data.getCrid());
-//		 UserDTO dto = getUser().getUser()
-		 ModelAndView mandv = new ModelAndView();
-		 mandv.addObject("balance",dto.getBalance());
-		 mandv.addObject("id",dto.getId());
-		 mandv.addObject("username",dto.getName());
-		 	mandv.setViewName("displayUser");
-			return mandv;
-		
+
+	@RequestMapping(value = "get", method = RequestMethod.POST)
+	public ModelAndView getUser(FormData formData) {
+
+		UserDTO userDTO = getUserService().getUser(formData.getCreditID());
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("balance", userDTO.getBalance());
+		modelAndView.addObject("id", userDTO.getId());
+		modelAndView.addObject("username", userDTO.getName());
+		modelAndView.setViewName("displayUser");
+		return modelAndView;
+
 	}
-	@RequestMapping(value = "get",method = RequestMethod.GET)
-	public ModelAndView getUser1()
-	{
-		FormData data = new FormData();
-		ModelAndView mandv = new ModelAndView();
-		mandv.addObject("data", data);
-		mandv.setViewName("getuser");
-		return mandv;
+
+	@RequestMapping(value = "get", method = RequestMethod.GET)
+	public ModelAndView getUser1() {
+		FormData formData = new FormData();
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("data", formData);
+		modelAndView.setViewName("getuser");
+		return modelAndView;
 	}
-	@RequestMapping(value = "transfer",method = RequestMethod.POST)
-	public ModelAndView moneyTransfer(FormData data)
-	{
+
+	@RequestMapping(value = "transfer", method = RequestMethod.POST)
+	public ModelAndView moneyTransfer(FormData data) {
 		try {
-			 getUser().moneyTransfer(data.getCrid(),data.getDbid(),data.getAmount());
-			 ModelAndView mandv = new ModelAndView();
-			 	mandv.setViewName("successtransfer");
-				return mandv;
-		} catch (InvalidUserException | InsufficientBalance e) {
-			
-			ModelAndView mandv = new ModelAndView();
-		 	mandv.setViewName("UserErrorPage");
-			return mandv;
+			getUserService().moneyTransfer(data.getCreditID(), data.getDebitID(), data.getAmount());
+			ModelAndView modelAndView = new ModelAndView();
+			modelAndView.setViewName("successtransfer");
+			return modelAndView;
+		} catch (InvalidUserException | InsufficientBalanceException e) {
+
+			ModelAndView modelAndView = new ModelAndView();
+			modelAndView.setViewName("UserErrorPage");
+			return modelAndView;
 		}
 	}
-	@RequestMapping(value = "createForm",method = RequestMethod.GET)
-	public ModelAndView setStudent(ModelAndView mandv) {
-		UserDTO user = new UserDTO();
-		mandv.addObject("user", user);
-		mandv.setViewName("forms");
-		return mandv;
+
+	@RequestMapping(value = "createForm", method = RequestMethod.GET)
+	public ModelAndView setStudent(ModelAndView modelAndView) {
+		UserDTO userdto = new UserDTO();
+		modelAndView.addObject("user", userdto);
+		modelAndView.setViewName("forms");
+		return modelAndView;
 	}
-	@RequestMapping(value = "success",method = RequestMethod.GET)
-	public ModelAndView sucess(ModelAndView mandv) {
-		mandv.setViewName("UserSuccessPage");
-		return mandv;
+
+	@RequestMapping(value = "success", method = RequestMethod.GET)
+	public ModelAndView sucess(ModelAndView modelAndView) {
+		modelAndView.setViewName("UserSuccessPage");
+		return modelAndView;
 	}
-	@RequestMapping(value = "moneytransfer",method = RequestMethod.GET)
-	public ModelAndView moneytransfer(ModelAndView mandv)
-	{
-		FormData data =new FormData();
-		mandv.addObject("data", data);
-		mandv.setViewName("moneytransfer");
-		return mandv;
+
+	@RequestMapping(value = "moneytransfer", method = RequestMethod.GET)
+	public ModelAndView moneytransfer(ModelAndView modelAndView) {
+		FormData formData = new FormData();
+		modelAndView.addObject("data", formData);
+		modelAndView.setViewName("moneytransfer");
+		return modelAndView;
 	}
 }

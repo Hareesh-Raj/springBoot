@@ -1,26 +1,33 @@
 package com.example.demo;
 
 public class FormData {
-	private int crid;
-	private int dbid;
+	private int creditID;
+	private int debitID;
+
+	public int getCreditID() {
+		return creditID;
+	}
+
+	public void setCreditID(int creditID) {
+		this.creditID = creditID;
+	}
+
+	public int getDebitID() {
+		return debitID;
+	}
+
+	public void setDebitID(int debitID) {
+		this.debitID = debitID;
+	}
+
 	private int amount;
-	public int getCrid() {
-		return crid;
-	}
-	public void setCrid(int crid) {
-		this.crid = crid;
-	}
-	public int getDbid() {
-		return dbid;
-	}
-	public void setDbid(int dbid) {
-		this.dbid = dbid;
-	}
+
 	public int getAmount() {
 		return amount;
 	}
+
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
-	
+
 }
