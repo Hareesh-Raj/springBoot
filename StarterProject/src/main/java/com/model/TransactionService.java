@@ -16,8 +16,8 @@ public class TransactionService {
 	public void setBss(BankingService bss) {
 		this.bss = bss;
 	}
-	@Transactional(propagation = Propagation.REQUIRED)
-	public void moneyTransfer(int crid,int drid,int amt)throws InsufficientBalance {
+	@Transactional(propagation = Propagation.REQUIRED,rollbackFor = {InsufficientBalance.class})
+	public void moneyTransfer(int crid,int drid,int amt) throws InsufficientBalance{
 		bss.doCredit(crid, amt);
 		bss.doDebit(drid, amt);			
 	}

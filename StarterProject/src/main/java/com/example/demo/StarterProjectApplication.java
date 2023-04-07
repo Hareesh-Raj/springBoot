@@ -17,9 +17,9 @@ public class StarterProjectApplication {
 		ApplicationContext ctx =  SpringApplication.run(StarterProjectApplication.class, args);
 		TransactionService service = ctx.getBean("tss",TransactionService.class);
 		try {
-			service.moneyTransfer(100,200, 500);
+			service.moneyTransfer(100,200, 500000);
 		} catch (InsufficientBalance e) {
-			e.printStackTrace();
+			System.out.println(e);
 		}
 	}
 
