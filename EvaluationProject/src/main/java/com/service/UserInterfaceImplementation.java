@@ -20,10 +20,10 @@ public class UserInterfaceImplementation implements UserServiceInterface {
 	// The reference for the userdao class to use the inbuilt methods and user
 	// defined methods of the auto jpa.
 	@Autowired
-	private UserDAO userdao;
+	private UserDAO userDAO;
 
 	public boolean isExists(int id) {
-		return userdao.existsById(id);
+		return userDAO.existsById(id);
 	}
 
 	/*
@@ -32,7 +32,7 @@ public class UserInterfaceImplementation implements UserServiceInterface {
 	 * of the userdao.
 	 */
 	public void createUser(UserDTO userDTO) {
-		userdao.save(userDTO);
+		userDAO.save(userDTO);
 	}
 
 	/*
@@ -44,7 +44,7 @@ public class UserInterfaceImplementation implements UserServiceInterface {
 	@Override
 	public int checkUser(int creditID, int debitID) {
 
-		return userdao.findByExists(creditID, debitID);
+		return userDAO.findByExists(creditID, debitID);
 	}
 
 	/*
@@ -56,7 +56,7 @@ public class UserInterfaceImplementation implements UserServiceInterface {
 	@Override
 	public UserDTO getUser(int id) {
 
-		return userdao.findById(id).get();
+		return userDAO.findById(id).get();
 	}
 
 	/*
@@ -88,11 +88,11 @@ public class UserInterfaceImplementation implements UserServiceInterface {
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS)
 	public void doCredit(int creditID, int creditAmount) {
-		Optional<UserDTO> creditUser = userdao.findById(creditID);
+		Optional<UserDTO> creditUser = userDAO.findById(creditID);
 		int amount = creditUser.get().getBalance();
 		amount += creditAmount;
 		creditUser.get().setBalance(amount);
-		userdao.updateAmount(creditID, amount);
+		userDAO.updateAmount(creditID, amount);
 	}
 
 	/*
@@ -102,13 +102,13 @@ public class UserInterfaceImplementation implements UserServiceInterface {
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, rollbackFor = { InsufficientBalanceException.class })
 	public void doDebit(int debitID, int debitAmount) throws InsufficientBalanceException {
-		Optional<UserDTO> debitUser = userdao.findById(debitID);
+		Optional<UserDTO> debitUser = userDAO.findById(debitID);
 		int amount = debitUser.get().getBalance();
 		if (amount < debitAmount) {
 			throw new InsufficientBalanceException("Not enough money to transfer....");
 		}
 		amount = amount - debitAmount;
 		debitUser.get().setBalance(amount);
-		userdao.updateAmount(debitID, amount);
+		userDAO.updateAmount(debitID, amount);
 	}
 }

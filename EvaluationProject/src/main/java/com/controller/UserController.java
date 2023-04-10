@@ -49,9 +49,16 @@ public class UserController {
 	 */
 	@RequestMapping(value = "create", method = RequestMethod.POST)
 	public ModelAndView insertUser(UserDTO userDTO) {
-		getUserService().createUser(userDTO);
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("UserSuccessPage");
+		if(getUserService().isExists(userDTO.getId()))
+		{
+			modelAndView.setViewName("ExistingUser");
+		}
+		else
+		{
+			getUserService().createUser(userDTO);
+			modelAndView.setViewName("UserSuccessPage");
+		}		
 		return modelAndView;
 	}
 
