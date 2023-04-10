@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  * */
 @Service("userService")
 @Transactional
-public class UserInterfaceImpl implements UserServiceInterface {
+public class UserInterfaceImplementation implements UserServiceInterface {
 	// The reference for the userdao class to use the inbuilt methods and user
 	// defined methods of the auto jpa.
 	@Autowired

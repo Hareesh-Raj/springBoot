@@ -14,13 +14,13 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/user")
 public class UserController {
 	@Autowired
-	private UserInterfaceImpl userService;
+	private UserInterfaceImplementation userService;
 
-	public UserInterfaceImpl getUserService() {
+	public UserInterfaceImplementation getUserService() {
 		return userService;
 	}
 
-	public void setUserService(UserInterfaceImpl userService) {
+	public void setUserService(UserInterfaceImplementation userService) {
 		this.userService = userService;
 	}
 
