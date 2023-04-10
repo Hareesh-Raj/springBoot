@@ -6,6 +6,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+/*
+ * The request that are come with url '/user' is handled by the class
+ * UserController.
+ */
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -20,12 +24,24 @@ public class UserController {
 		this.userService = userService;
 	}
 
+	/*
+	 * @param ModelAndView modelAndView. This function will handle the request for
+	 * the url '/menu' menu.jsp will be loaded in the page.
+	 * 
+	 * @return ModelAndView.
+	 */
 	@RequestMapping(value = "menu", method = RequestMethod.GET)
 	public ModelAndView menuPage(ModelAndView modelAndView) {
 		modelAndView.setViewName("menu");
 		return modelAndView;
 	}
 
+	/*
+	 * @param ModelAndView modelAndView. This function will handle the request for
+	 * the url '/create' UserSuccessPage.jsp will be loaded in the page.
+	 * 
+	 * @return ModelAndView.
+	 */
 	@RequestMapping(value = "create", method = RequestMethod.POST)
 	public ModelAndView createUser(UserDTO user) {
 		getUserService().createUser(user);
@@ -34,6 +50,14 @@ public class UserController {
 		return modelAndView;
 	}
 
+	/*
+	 * @param FormData formData. This function will handle the request for the url
+	 * '/get' and for post method type. we are adding the data as a object in the
+	 * modelAndView object and returning the view as a response. displayUser.jsp
+	 * will be loaded in the page.
+	 * 
+	 * @return ModelAndView.
+	 */
 	@RequestMapping(value = "get", method = RequestMethod.POST)
 	public ModelAndView getUser(FormData formData) {
 
@@ -47,6 +71,13 @@ public class UserController {
 
 	}
 
+	/*
+	 * This function will handle the request for the url '/get' and for type get. we
+	 * are adding the data as a object in the modelAndView object and returning the
+	 * view as a response. getuser.jsp will be loaded in the page.
+	 * 
+	 * @return ModelAndView.
+	 */
 	@RequestMapping(value = "get", method = RequestMethod.GET)
 	public ModelAndView getUser1() {
 		FormData formData = new FormData();
@@ -56,6 +87,14 @@ public class UserController {
 		return modelAndView;
 	}
 
+	/*
+	 * @param FormData data. This function will handle the request for the url
+	 * '/transfer' and for type get. If transfer is success successtransfer.jsp will
+	 * be loaded in the page. If transfer is failed UserErrorPage.jsp will be loaded
+	 * in the page.
+	 * 
+	 * @return ModelAndView.
+	 */
 	@RequestMapping(value = "transfer", method = RequestMethod.POST)
 	public ModelAndView moneyTransfer(FormData data) {
 		try {
@@ -71,6 +110,12 @@ public class UserController {
 		}
 	}
 
+	/*
+	 * @param ModelAndView modelAndView. This function will handle the request for
+	 * the url '/createForm'
+	 * 
+	 * @return ModelAndView.
+	 */
 	@RequestMapping(value = "createForm", method = RequestMethod.GET)
 	public ModelAndView setStudent(ModelAndView modelAndView) {
 		UserDTO userdto = new UserDTO();
@@ -79,12 +124,24 @@ public class UserController {
 		return modelAndView;
 	}
 
+	/*
+	 * @param ModelAndView modelAndView. This function will handle the request for
+	 * the url '/success'
+	 * 
+	 * @return ModelAndView.
+	 */
 	@RequestMapping(value = "success", method = RequestMethod.GET)
 	public ModelAndView sucess(ModelAndView modelAndView) {
 		modelAndView.setViewName("UserSuccessPage");
 		return modelAndView;
 	}
 
+	/*
+	 * @param ModelAndView modelAndView. This function will handle the request for
+	 * the url '/success'
+	 * 
+	 * @return ModelAndView.
+	 */
 	@RequestMapping(value = "moneytransfer", method = RequestMethod.GET)
 	public ModelAndView moneytransfer(ModelAndView modelAndView) {
 		FormData formData = new FormData();

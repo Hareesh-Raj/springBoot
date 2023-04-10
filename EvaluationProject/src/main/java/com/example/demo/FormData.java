@@ -1,8 +1,12 @@
 package com.example.demo;
 
+/*
+ * This class is used to store the FormData and to do manipulation with the formdata.
+ * */
 public class FormData {
 	private int creditID;
 	private int debitID;
+	private int amount;
 
 	public int getCreditID() {
 		return creditID;
@@ -19,8 +23,6 @@ public class FormData {
 	public void setDebitID(int debitID) {
 		this.debitID = debitID;
 	}
-
-	private int amount;
 
 	public int getAmount() {
 		return amount;
