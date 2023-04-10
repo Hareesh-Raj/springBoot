@@ -1,8 +1,13 @@
-package com.example.demo;
+package com.service;
 
 import java.util.Optional;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.example.demo.InsufficientBalanceException;
+import com.example.demo.InvalidUserException;
+import com.model.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +21,10 @@ public class UserInterfaceImplementation implements UserServiceInterface {
 	// defined methods of the auto jpa.
 	@Autowired
 	private UserDAO userdao;
+
+	public boolean isExists(int id) {
+		return userdao.existsById(id);
+	}
 
 	/*
 	 * @param UserDTO dto this is the object need to be stored. This method is used

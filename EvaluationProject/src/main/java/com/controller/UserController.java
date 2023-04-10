@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -6,6 +6,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.demo.FormData;
+import com.example.demo.InsufficientBalanceException;
+import com.example.demo.InvalidUserException;
+import com.service.*;
+import com.model.*;
 /*
  * The request that are come with url '/user' is handled by the class
  * UserController.
@@ -43,8 +48,8 @@ public class UserController {
 	 * @return ModelAndView.
 	 */
 	@RequestMapping(value = "create", method = RequestMethod.POST)
-	public ModelAndView createUser(UserDTO user) {
-		getUserService().createUser(user);
+	public ModelAndView insertUser(UserDTO userDTO) {
+		getUserService().createUser(userDTO);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("UserSuccessPage");
 		return modelAndView;
@@ -60,13 +65,20 @@ public class UserController {
 	 */
 	@RequestMapping(value = "get", method = RequestMethod.POST)
 	public ModelAndView getUser(FormData formData) {
-
-		UserDTO userDTO = getUserService().getUser(formData.getCreditID());
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("balance", userDTO.getBalance());
-		modelAndView.addObject("id", userDTO.getId());
-		modelAndView.addObject("username", userDTO.getName());
-		modelAndView.setViewName("displayUser");
+		if(getUserService().isExists(formData.getCreditID()))
+		{
+			UserDTO userDTO = getUserService().getUser(formData.getCreditID());
+			modelAndView.addObject("balance", userDTO.getBalance());
+			modelAndView.addObject("id", userDTO.getId());
+			modelAndView.addObject("username", userDTO.getName());
+			modelAndView.setViewName("displayUser");
+		}
+		else
+		{
+			modelAndView.setViewName("invalidUser");
+		}
+		
 		return modelAndView;
 
 	}
