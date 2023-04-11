@@ -1,16 +1,20 @@
 package com.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import com.example.demo.FormData;
 import com.example.demo.InsufficientBalanceException;
 import com.example.demo.InvalidUserException;
 import com.service.*;
 import com.model.*;
+
 /*
  * The request that are come with url '/user' is handled by the class
  * UserController.
@@ -35,7 +39,7 @@ public class UserController {
 	 * 
 	 * @return ModelAndView.
 	 */
-	@RequestMapping(value = "menu", method = RequestMethod.GET)
+	@GetMapping("menu")
 	public ModelAndView menuPage(ModelAndView modelAndView) {
 		modelAndView.setViewName("menu");
 		return modelAndView;
@@ -47,18 +51,15 @@ public class UserController {
 	 * 
 	 * @return ModelAndView.
 	 */
-	@RequestMapping(value = "create", method = RequestMethod.POST)
+	@PostMapping("create")
 	public ModelAndView insertUser(UserDTO userDTO) {
 		ModelAndView modelAndView = new ModelAndView();
-		if(getUserService().isExists(userDTO.getId()))
-		{
+		if (getUserService().isExists(userDTO.getId())) {
 			modelAndView.setViewName("ExistingUser");
-		}
-		else
-		{
+		} else {
 			getUserService().createUser(userDTO);
 			modelAndView.setViewName("UserSuccessPage");
-		}		
+		}
 		return modelAndView;
 	}
 
@@ -70,22 +71,19 @@ public class UserController {
 	 * 
 	 * @return ModelAndView.
 	 */
-	@RequestMapping(value = "get", method = RequestMethod.POST)
+	@PostMapping("get")
 	public ModelAndView getUser(FormData formData) {
 		ModelAndView modelAndView = new ModelAndView();
-		if(getUserService().isExists(formData.getCreditID()))
-		{
+		if (getUserService().isExists(formData.getCreditID())) {
 			UserDTO userDTO = getUserService().getUser(formData.getCreditID());
 			modelAndView.addObject("balance", userDTO.getBalance());
 			modelAndView.addObject("id", userDTO.getId());
 			modelAndView.addObject("username", userDTO.getName());
 			modelAndView.setViewName("displayUser");
-		}
-		else
-		{
+		} else {
 			modelAndView.setViewName("invalidUser");
 		}
-		
+
 		return modelAndView;
 
 	}
@@ -97,7 +95,7 @@ public class UserController {
 	 * 
 	 * @return ModelAndView.
 	 */
-	@RequestMapping(value = "get", method = RequestMethod.GET)
+	@GetMapping("get")
 	public ModelAndView getUser1() {
 		FormData formData = new FormData();
 		ModelAndView modelAndView = new ModelAndView();
@@ -114,7 +112,7 @@ public class UserController {
 	 * 
 	 * @return ModelAndView.
 	 */
-	@RequestMapping(value = "transfer", method = RequestMethod.POST)
+	@PostMapping("transfer")
 	public ModelAndView moneyTransfer(FormData data) {
 		try {
 			getUserService().moneyTransfer(data.getCreditID(), data.getDebitID(), data.getAmount());
@@ -135,7 +133,7 @@ public class UserController {
 	 * 
 	 * @return ModelAndView.
 	 */
-	@RequestMapping(value = "createForm", method = RequestMethod.GET)
+	@GetMapping("createForm")
 	public ModelAndView setStudent(ModelAndView modelAndView) {
 		UserDTO userdto = new UserDTO();
 		modelAndView.addObject("user", userdto);
@@ -149,7 +147,7 @@ public class UserController {
 	 * 
 	 * @return ModelAndView.
 	 */
-	@RequestMapping(value = "success", method = RequestMethod.GET)
+	@GetMapping("success")
 	public ModelAndView sucess(ModelAndView modelAndView) {
 		modelAndView.setViewName("UserSuccessPage");
 		return modelAndView;
@@ -161,11 +159,21 @@ public class UserController {
 	 * 
 	 * @return ModelAndView.
 	 */
-	@RequestMapping(value = "moneytransfer", method = RequestMethod.GET)
+	@GetMapping("moneytransfer")
 	public ModelAndView moneytransfer(ModelAndView modelAndView) {
 		FormData formData = new FormData();
 		modelAndView.addObject("data", formData);
 		modelAndView.setViewName("moneytransfer");
 		return modelAndView;
 	}
+
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ModelAndView handleBadRequestException(HttpServletRequest req, MethodArgumentNotValidException ex) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("error");
+		modelAndView.addObject("errorCode", "400");
+		modelAndView.addObject("errorMessage", ex.getMessage());
+		return modelAndView;
+	}
+
 }
